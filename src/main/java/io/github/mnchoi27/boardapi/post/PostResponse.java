@@ -1,0 +1,23 @@
+package io.github.mnchoi27.boardapi.post;
+
+import java.time.LocalDateTime;
+
+public record PostResponse(
+        Long id,
+        String title,
+        String content,
+        Long authorId,
+        String authorNickname,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt) {
+    public static PostResponse from(Post post) {
+        return new PostResponse(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getMember().getId(),
+                post.getMember().getNickname(),
+                post.getCreatedAt(),
+                post.getUpdatedAt());
+    }
+}
