@@ -1,5 +1,7 @@
 package io.github.mnchoi27.boardapi.post;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,5 +25,13 @@ public class PostService {
         Post post = new Post(title, content, member);
         Post saved = postRepository.save(post);
         return PostResponse.from(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponse> findAll() {
+        return postRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(PostResponse::from)
+                .toList();
     }
 }
