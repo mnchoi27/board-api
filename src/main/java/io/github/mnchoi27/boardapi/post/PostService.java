@@ -40,4 +40,12 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow();
         return PostResponse.from(post);
     }
+
+    @Transactional
+    public PostResponse update(Long id, String title, String content) {
+        Post post = postRepository.findById(id).orElseThrow();
+        post.update(title, content);
+        postRepository.flush();
+        return PostResponse.from(post);
+    }
 }
