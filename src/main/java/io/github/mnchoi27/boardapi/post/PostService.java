@@ -48,4 +48,10 @@ public class PostService {
         postRepository.flush();
         return PostResponse.from(post);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Post post = postRepository.findById(id).orElseThrow();
+        postRepository.delete(post);
+    }
 }
