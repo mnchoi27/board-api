@@ -34,4 +34,10 @@ public class PostService {
                 .map(PostResponse::from)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public PostResponse findById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow();
+        return PostResponse.from(post);
+    }
 }
