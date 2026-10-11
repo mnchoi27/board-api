@@ -15,7 +15,7 @@ public class Member {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String nickname;
 
     protected Member() {

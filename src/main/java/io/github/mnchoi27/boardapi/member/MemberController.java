@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -19,7 +21,7 @@ public class MemberController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberResponse register(@RequestBody MemberCreateRequest request) {
+    public MemberResponse register(@Valid @RequestBody MemberCreateRequest request) {
         return memberService.register(request.email(), request.nickname());
     }
 }
