@@ -1,4 +1,9 @@
 package io.github.mnchoi27.boardapi.post;
 
-public record PostUpdateRequest(String title, String content) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record PostUpdateRequest(
+        @NotBlank @Size(max = 100) String title,
+        @NotBlank @Size(max = 10000) String content) {
 }
