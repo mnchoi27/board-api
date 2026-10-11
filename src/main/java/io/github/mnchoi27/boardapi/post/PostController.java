@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -25,7 +27,7 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PostResponse create(@RequestBody PostCreateRequest request) {
+    public PostResponse create(@Valid @RequestBody PostCreateRequest request) {
         return postService.create(request.memberId(), request.title(), request.content());
     }
 
@@ -40,7 +42,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public PostResponse update(@PathVariable Long id, @RequestBody PostUpdateRequest request) {
+    public PostResponse update(@PathVariable Long id, @Valid @RequestBody PostUpdateRequest request) {
         return postService.update(id, request.title(), request.content());
     }
 
