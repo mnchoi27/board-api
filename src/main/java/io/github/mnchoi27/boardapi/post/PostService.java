@@ -34,13 +34,13 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostResponse findById(Long id) {
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         return PostResponse.from(post);
     }
 
     @Transactional
     public PostResponse update(Long id, String title, String content) {
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         post.update(title, content);
         postRepository.flush();
         return PostResponse.from(post);
@@ -48,7 +48,7 @@ public class PostService {
 
     @Transactional
     public void delete(Long id) {
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         postRepository.delete(post);
     }
 }
