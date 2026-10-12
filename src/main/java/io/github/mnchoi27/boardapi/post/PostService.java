@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.mnchoi27.boardapi.member.Member;
+import io.github.mnchoi27.boardapi.member.MemberNotFoundException;
 import io.github.mnchoi27.boardapi.member.MemberRepository;
 
 @Service
@@ -21,7 +22,7 @@ public class PostService {
 
     @Transactional
     public PostResponse create(Long memberId, String title, String content) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
         Post post = new Post(title, content, member);
         Post saved = postRepository.save(post);
         return PostResponse.from(saved);
