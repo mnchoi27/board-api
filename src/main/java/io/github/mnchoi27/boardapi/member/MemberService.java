@@ -14,6 +14,9 @@ public class MemberService {
 
     @Transactional
     public MemberResponse register(String email, String nickname) {
+        if (memberRepository.existsByEmail(email)) {
+            throw new DuplicateEmailException(email);
+        }
         Member member = new Member(email, nickname);
 
         Member saved = memberRepository.save(member);
