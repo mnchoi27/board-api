@@ -1,5 +1,6 @@
 package io.github.mnchoi27.boardapi.member;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +19,11 @@ public class MemberService {
             throw new DuplicateEmailException(email);
         }
         Member member = new Member(email, nickname);
-
-        Member saved = memberRepository.save(member);
-
-        return MemberResponse.from(saved);
+        try {
+            Member saved = memberRepository.saveAndFlush(member);
+            return MemberResponse.from(saved);
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateEmailException(email);
+        }
     }
 }
