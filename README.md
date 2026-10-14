@@ -8,6 +8,7 @@ A REST API for a simple bulletin board where members can create and manage posts
 - Spring Boot 4.1
     - Spring Web MVC
     - Spring Data JPA
+    - Bean Validation (Hibernate Validator)
 - H2 Database
 - Gradle (Groovy DSL)
 - springdoc-openapi
@@ -47,10 +48,10 @@ http://localhost:8080/swagger-ui/index.html
 - Use Hibernate timestamp annotations to manage creation and update times.
 - Sort posts by creation time in descending order.
 - Include the author's ID and nickname in post responses.
+- Return errors in the RFC 9457 Problem Details format: 400 for invalid requests, 404 for missing resources, and 409 for duplicate emails. Validation failures list each field error under `errors`.
 
 ## Known Limitations
 
-- Request validation and consistent error handling are not implemented.
 - Post creation accepts any member ID as the author.
 - Update and delete operations do not yet verify post ownership.
 - Data is stored in an in-memory H2 database and is lost on restart.
