@@ -1,5 +1,7 @@
 package io.github.mnchoi27.boardapi.comment;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,5 +35,14 @@ public class CommentService {
         Comment saved = commentRepository.save(comment);
 
         return CommentResponse.from(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentResponse> findAllByPostId(Long postId) {
+        if (!postRepository.existsById(postId)) {
+            throw new PostNotFoundException(postId);
+        }
+
+        return commentRepository.findAllByPostIdOrderByCreatedAtAsc(postId).stream().map(CommentResponse::from).toList();
     }
 }
