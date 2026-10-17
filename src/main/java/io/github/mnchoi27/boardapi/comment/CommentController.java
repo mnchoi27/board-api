@@ -1,6 +1,9 @@
 package io.github.mnchoi27.boardapi.comment;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,5 +25,10 @@ public class CommentController {
     @ResponseStatus(HttpStatus.CREATED)
     public CommentResponse create(@PathVariable Long postId, @Valid @RequestBody CommentCreateRequest request) {
         return commentService.create(postId, request.memberId(), request.content());
+    }
+
+    @GetMapping("/posts/{postId}/comments")
+    public List<CommentResponse> findAllByPostId(@PathVariable Long postId) {
+        return commentService.findAllByPostId(postId);
     }
 }
