@@ -3,6 +3,7 @@ package io.github.mnchoi27.boardapi.comment;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,5 +31,11 @@ public class CommentController {
     @GetMapping("/posts/{postId}/comments")
     public List<CommentResponse> findAllByPostId(@PathVariable Long postId) {
         return commentService.findAllByPostId(postId);
+    }
+
+    @DeleteMapping("/comments/{commentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long commentId) {
+        commentService.delete(commentId);
     }
 }
