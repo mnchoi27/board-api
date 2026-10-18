@@ -43,6 +43,7 @@ public class CommentService {
             throw new PostNotFoundException(postId);
         }
 
-        return commentRepository.findAllByPostIdOrderByCreatedAtAsc(postId).stream().map(CommentResponse::from).toList();
+        return commentRepository.findAllByPostIdOrderByCreatedAtAsc(postId).stream().map(CommentResponse::from)
+                .toList();
     }
 }
