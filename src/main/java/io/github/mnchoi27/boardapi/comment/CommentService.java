@@ -46,4 +46,10 @@ public class CommentService {
         return commentRepository.findAllByPostIdOrderByCreatedAtAsc(postId).stream().map(CommentResponse::from)
                 .toList();
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException(id));
+        commentRepository.delete(comment);
+    }
 }
