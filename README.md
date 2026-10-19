@@ -40,18 +40,22 @@ http://localhost:8080/swagger-ui/index.html
 - `GET /posts` — List posts by creation time, newest first (200)
 - `GET /posts/{id}` — Get a post (200)
 - `PUT /posts/{id}` — Update a post (200)
-- `DELETE /posts/{id}` — Delete a post (204)
+- `DELETE /posts/{id}` — Delete a post and its comments (204)
+- `POST /posts/{postId}/comments` — Add a comment to a post (201)
+- `GET /posts/{postId}/comments` — List a post's comments by creation time, oldest first (200)
+- `DELETE /comments/{commentId}` — Delete a comment (204)
 
 ## Design Decisions
 
 - Organize code by domain, keeping each feature's components together.
 - Use Hibernate timestamp annotations to manage creation and update times.
-- Sort posts by creation time in descending order.
-- Include the author's ID and nickname in post responses.
+- Sort posts newest first and comments oldest first, both by creation time.
+- Include the author's ID and nickname in post and comment responses.
 - Return errors in the RFC 9457 Problem Details format: 400 for invalid requests, 404 for missing resources, and 409 for duplicate emails. Validation failures list each field error under `errors`.
+- Delete a post's comments through an `ON DELETE CASCADE` foreign key, keeping the post-comment relation unidirectional.
 
 ## Known Limitations
 
-- Post creation accepts any member ID as the author.
-- Update and delete operations do not yet verify post ownership.
+- Post and comment creation accept any member ID as the author.
+- Update and delete operations do not yet verify that the requester owns the post or comment.
 - Data is stored in an in-memory H2 database and is lost on restart.
